@@ -4,21 +4,28 @@ from Calibrator import Calibrator
 from PausableTimer import PausableTimer
 from StateMachine import StateMachine
 
-BPM = 30
+BPM = 116
 starttime = time.time()
 
 calibrator = Calibrator(750, 900, 950, 1100)
 startColor = calibrator.calibrate()
+#startColor = "Red"
 
 stateMachine = StateMachine(startColor)
 
-timer = PausableTimer(starttime, 60/BPM, stateMachine.rotateColor())
+stateMachine.rotateColor()
+stateMachine.rotateColor()
+time.sleep(0.24)
+
+timer = PausableTimer(60/BPM, stateMachine.rotateColor)
+
 
 while True:    
-    
+    timer.newTimer()
     #update UI color stateMachine.getColor()
     print(stateMachine.getColor())
-    time.sleep(0.5)
+    time.sleep(60/BPM - ((time.time() - starttime) % (60/BPM)))
+    #time.sleep(0.5)
 
 
 

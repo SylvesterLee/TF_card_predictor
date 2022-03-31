@@ -1,23 +1,16 @@
 import threading, time
 
+import threading, time
+
 class PausableTimer:
-    def __init__(self, starttime, BPM, callback):
-        self.starttime = starttime
-        self.BPM = BPM
+    def __init__(self, timeout, callback):
+        self.timeout = timeout
         self.callback = callback
-        self.timeout = 60/BPM - ((time.time() - starttime) % (60/BPM))
-        self.timer = threading.Timer(self.timeout, self.repeat())
-        self.initTimer()
-
-    def initTimer(self):
-        self.timeout = 60/self.BPM - ((time.time() - self.starttime) % (60/self.BPM))
-        
-        self.timer.cancel()
-        self.newTimer()
-        self.startTime = time.time()
-
+    
     def newTimer(self):
-        self.timer = threading.Timer(self.timeout, self.repeat())
+        #time.sleep(5)
+        self.timer = threading.Timer(self.timeout, self.callback())
+        self.startTime = time.time()
 
     def start(self):
         self.timer.start()
@@ -32,7 +25,3 @@ class PausableTimer:
             self.callback)
 
         self.timer.start()
-
-    def repeat(self):
-        self.initTimer()
-        self.callback
