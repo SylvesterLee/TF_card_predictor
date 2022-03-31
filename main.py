@@ -1,8 +1,33 @@
 from python_imagesearch.imagesearch import imagesearcharea
 import time
+from Calibrator import Calibrator
+from PausableTimer import PausableTimer
+from StateMachine import StateMachine
 
+BPM = 30
+starttime = time.time()
+
+calibrator = Calibrator(750, 900, 950, 1100)
+startColor = calibrator.calibrate()
+
+stateMachine = StateMachine(startColor)
+
+timer = PausableTimer(starttime, 60/BPM, stateMachine.rotateColor())
+
+while True:    
+    
+    #update UI color stateMachine.getColor()
+    print(stateMachine.getColor())
+    time.sleep(0.5)
+
+
+
+
+
+
+'''
 bpm = 200
-wCoordx1, wCoordy1, wCoordx2, wCoordy2 = 750, 900, 950, 1050
+wCoordx1, wCoordy1, wCoordx2, wCoordy2 = 750, 900, 950, 1100
 starttime = time.time()
 while True:
     pos1 =  imagesearcharea("images/unlevelledW.PNG", wCoordx1, wCoordy1, wCoordx2, wCoordy2, precision = 0.95)
@@ -26,4 +51,4 @@ while True:
         print("cooldown W")
     else:
         print("image not found")
-    time.sleep(60/bpm - ((time.time() - starttime) % (60/bpm)))
+    time.sleep(60/bpm - ((time.time() - starttime) % (60/bpm)))'''
